@@ -1,0 +1,9 @@
+testPortfolio.db
+__pycache__/
+testDB.py
+credentials.json
+Mail.py
+.idea/
+.vscode/
+portfolio_manager/
+token.pickle
