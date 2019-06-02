@@ -9,17 +9,22 @@ from requests.exceptions import RequestException
 
 
 class DataGatherer:
-    """
-    Scrapes the nasdaq earnings webpage for all sticks I currently own and if
-    expected earnings are given, update the information in my portfolio.
-    """
-
     def get_expected_earnings(self, symbol):
         """
-        Search webpage for earnings on given stock symbol.
-        :param symbol: symbol of stock we want earning date for
-        :return: the date of expected earnings MM/DD/YYYY if found, None if no earnings date found
+        Search webpage for earnings on given stock symbol
+        
+        Parameters
+        ----------
+        symbol : str
+            Symbol of stock we need information on
+        
+        Returns
+        -------
+        datetime
+            Date of expected earnings in datetime format if found, None if no
+            earnings date is found
         """
+
         # Webpage format for each stock symbol
         earnings_url = "https://www.nasdaq.com/earnings/report/" + symbol
 
@@ -39,11 +44,19 @@ class DataGatherer:
 
     def get_soup(self, url):
         """
-        Uses requests and BeautifulSoup to grab the html on the given
-        webpage.
-        :param url: url of desired website
-        :return: soup of the desired webpage
+        Grabs source html of for the given webpage
+        
+        Parameters
+        ----------
+        url : str
+            Url of webpage we want html for
+        
+        Returns
+        -------
+        soup
+            Soup for desired webpage
         """
+        
         try:
             page = requests.get(url, timeout=5)
         except RequestException as e:
