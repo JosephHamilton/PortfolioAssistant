@@ -6,10 +6,6 @@ from Positions import Position
 
 
 class Portfolio:
-    """
-    Portfolio keeps track of all positions currently being held.
-    """
-
     def __init__(self):
         """
         Create a new db handler object and data gatherer object
@@ -25,12 +21,19 @@ class Portfolio:
 
     def add_position(self, symbol, shares, cost):
         """
-        If I already have a position in the stock update the information, otherwise
-        add a new position for the stock
-        :param symbol: symbol of stock
-        :param shares: number of shares in position
-        :param cost: cost per share of stock
+        Update information of position if I already own shares, otherwise add
+        a new position for the stock
+        
+        Parameters
+        ----------
+        symbol : str
+            Symbol of stock being added
+        shares : int
+            Number of shares being purchased
+        cost : float
+            Cost per share of stock
         """
+        
         current_positions = self.db.current_positions()
 
         if symbol.upper() in current_positions:
@@ -38,7 +41,6 @@ class Portfolio:
             pos = self.db.retrieve_position(symbol.upper())
             pos.buy_shares(shares, cost)
             self.db.update_position(pos)
-
         else:
             exp_earnings = self.scraper.get_expected_earnings(symbol)
             position = Position(symbol, shares, cost, exp_earnings)
@@ -47,10 +49,14 @@ class Portfolio:
 
     def close_positions(self, symbol):
         """
-        Close the positions for the symbol given
-        :param symbol: symbol of stock
+        Close the position for the sumbol given
+        
+        Parameters
+        ----------
+        symbol : str
+            Symbol of position to close
         """
-        # Retrieve information on my position from the database
+
         pos = self.db.retrieve_position(symbol.upper())
 
         if pos is not None:
@@ -59,11 +65,18 @@ class Portfolio:
 
     def sell_position(self, symbol, shares, price):
         """
-        Sell some shares of the positions but don't close completely
-        :param symbol: symbol of stock
-        :param shares: number of shares sold
-        :param price: price of shares sold
+        Sell some shares of the position byt don't close completely
+        
+        Parameters
+        ----------
+        symbol : str
+            Symbol of stock to sell
+        shares : int
+            Number of shares to sell
+        price : float
+            Price of shares sold
         """
+
         current_positions = self.db.current_positions()
 
         if symbol.upper() in current_positions:
@@ -87,7 +100,8 @@ class Portfolio:
             self.db.update_position(position)
 
     def print(self):
-        """ Helper method to print portfolio information
+        """
+        Helper method to print portfolio information
         """
         test_positions = self.db.db_to_array()
 

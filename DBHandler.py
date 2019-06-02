@@ -6,14 +6,10 @@ from Positions import Position
 
 
 class DBHandler:
-    """
-    Handles interactions with the database.
-    """
-
     def __init__(self):
         """
-        Connect to the portfolio database.  Check if the positions table exists and
-        create the table if one doesn't exist.
+        Connect to the portfolio database and check if the table exists.  Create
+        the table if it does not exists
         """
         self.conn = sqlite3.connect('testPortfolio.db')
 
@@ -24,9 +20,14 @@ class DBHandler:
 
     def add_position(self, position):
         """
-        Add new position to database
-        :param position: new position being added
+        Add new position to the database
+        
+        Parameters
+        ----------
+        position : Position
+            New position being added
         """
+
         self.c.execute("INSERT INTO positions VALUES (?, ?, ?, ?, ?)", (
             position.symbol, position.numShares, position.averageCost, position.totalInvestment,
             position.expectedEarningsDate))
@@ -34,9 +35,14 @@ class DBHandler:
 
     def update_position(self, position):
         """
-        Update number of shares for a given symbol.
-        :param position: stock position being updated
+        Update number of shares for a given symbol
+        
+        Parameters
+        ----------
+        position : Position
+            Stock position being updated
         """
+
         if position.numShares > 0:
             self.c.execute(
                 "UPDATE positions SET shares=?, avgCost=?, totalInvestment=?, expectedEarnings=? WHERE symbol=?", (
@@ -49,10 +55,19 @@ class DBHandler:
 
     def retrieve_position(self, sym):
         """
-        Retrieve information on the symbol given.
-        :param sym: symbol of desired position
-        :return: position information for given symbol if found, none if no position held
+        Retrieve information on the symbol given
+        
+        Parameters
+        ----------
+        sym : str
+            Symbol of desired position
+        
+        Returns
+        -------
+        Position
+            Position information for given symbol if found, none if no position held
         """
+
         self.c.execute('SELECT * FROM positions WHERE symbol=?', (sym,))
         row = self.c.fetchone()
 
@@ -63,9 +78,14 @@ class DBHandler:
 
     def current_positions(self):
         """
-        Return symbols of current positions.
-        :return: list of symbols of current positions
+        Finds symbols of all positions currently being held
+        
+        Returns
+        -------
+        list
+            List of symbols for current positions
         """
+
         current_positions = []
 
         for row in self.c.execute('SELECT symbol FROM positions ORDER BY symbol'):
@@ -75,9 +95,15 @@ class DBHandler:
 
     def db_to_array(self):
         """
-        Return all information in database as array.
-        :return: all information for all positions in portfolio database
+        Return all information in database as a list
+        
+        Returns
+        -------
+        list
+            All information for all positions in portfolio database
         """
+        # TODO: Change name to db_to_list
+
         return_positions = []
 
         for row in self.c.execute('SELECT * FROM positions ORDER BY symbol'):
@@ -88,6 +114,7 @@ class DBHandler:
 
     def __del__(self):
         """
-        Close the connection to the database.
+        Close the connection to the database
         """
+
         self.conn.close()
