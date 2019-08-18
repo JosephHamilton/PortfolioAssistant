@@ -4,7 +4,7 @@
 
 
 class Position:
-    def __init__(self, symbol, numShares, averageCost, expectedEarnings):
+    def __init__(self, symbol, num_shares=0, average_cost=0, expected_earnings=None):
         """
         Stores all necessary information for the current stock position
         
@@ -12,19 +12,23 @@ class Position:
         ----------
         symbol : str
             Stock symbol
-        numShares : int
+        num_shares : int
             Number of shares purchased
-        averageCost : float
+        average_cost : float
             Average cost per share
-        expectedEarnings : datetime
+        expected_earnings : datetime
             Date of expected earnings
         """
 
         self.symbol = symbol.upper()
-        self.numShares = numShares
-        self.averageCost = averageCost
-        self.totalInvestment = numShares * averageCost
-        self.expectedEarningsDate = expectedEarnings
+        self.numShares = num_shares
+        self.averageCost = average_cost
+        self.totalInvestment = num_shares * average_cost
+        self.expectedEarningsDate = expected_earnings
+
+    def __repr__(self):
+        return f'{self.symbol}(num_shares={self.numShares}, average_cost={self.averageCost}, ' \
+               f'expected_earnings={self.expectedEarningsDate})'
 
     def buy_shares(self, quantity, cost):
         """

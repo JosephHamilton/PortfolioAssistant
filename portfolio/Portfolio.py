@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
-from DBHandler import DBHandler
-from DataGatherer import DataGatherer
-from Positions import Position
+import DBHandler
+import DataGatherer
+import Position
 
 
 class Portfolio:
@@ -12,6 +12,8 @@ class Portfolio:
         """
         self.db = DBHandler()
         self.scraper = DataGatherer()
+
+        self.__positions = self.db.current_positions
 
     def __del__(self):
         """
