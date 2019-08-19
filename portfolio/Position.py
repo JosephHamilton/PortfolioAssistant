@@ -59,16 +59,4 @@ class Position:
         """
 
         self.numShares -= quantity
-        self.totalInvestment -= price * quantity
-
-    def print(self):
-        """
-        Helper method to print out the position
-        """
-        # TODO: Change to __repr__ or some magic method
-        print("Symbol: {}\n"
-              "Number of Shares: {}\n"
-              "Average Cost: ${:,.2f}\n"
-              "Total Investment: ${:,.2f}\n"
-              "Expected Earnings Report: {}\n".format(self.symbol, self.numShares, self.averageCost,
-                                                      self.totalInvestment, self.expectedEarningsDate))
+        self.totalInvestment = self.averageCost * quantity
