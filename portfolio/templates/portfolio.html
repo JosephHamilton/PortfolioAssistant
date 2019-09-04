@@ -6,11 +6,16 @@
 <table class="table table-striped">
     <!-- Cause page to refresh -->
     <!-- <meta http-equiv="refresh" content="5"> -->
-    <meta http-equiv="refresh" content="20">
 
     <div style="clear: both">
-        <h2 style="float: left; width: 50%; padding-left: 10">Portfolio</h2>
-        <h3 style="float: right; width: 50%; text-align: right; padding-right: 10">Total: ${{ "%.2f" % total | float }} </h3>
+        <h2 style="float: left; width: 20%; padding-left: 10px">Portfolio</h2>
+        <form action="" method="post" role="form">
+            <button type="submit" class="button" name="submit_button" value="add_position">Add Position</button>
+        </form>
+        <form action="" method="post" role="form">
+            <button type="submit" class="button" name="submit_button" value="sell_position">Sell Position</button>
+        </form>
+        <h3 style="float: right; width: 30%; text-align: right; padding-right: 10px">Total: ${{ "%.2f" % total | float }} </h3>
     </div>
 
     <tr>
@@ -31,23 +36,20 @@
 
 </table>
 
-<form action="" method="post" role="form">
-    <button type="submit" class="button" name="submit_button" value="checkout">Checkout</button>
-</form>
-
 <style>
     .button {
-        background-color: rgb(175, 83, 76);
+        float: left;
+        background-color: rgb(87, 175, 76);
         border: none;
         color: white;
-        padding: 15px 32px;
+        padding: 10px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
         font-size: 24px;
-        margin: 4px 2px;
+        margin: 10px 40px;
         cursor: pointer;
         border-radius: 8px;
-        width: 250px;
+        width: 15%;
     }
 </style>
