@@ -2,7 +2,7 @@
 
 import sqlite3
 
-from Positions import Position
+from Position import Position
 
 
 class DBHandler:
@@ -11,12 +11,12 @@ class DBHandler:
         Connect to the portfolio database and check if the table exists.  Create
         the table if it does not exists
         """
-        self.conn = sqlite3.connect('testPortfolio.db')
+        self.conn = sqlite3.connect('testPortfolio.db', check_same_thread=False)
 
         self.c = self.conn.cursor()
 
         self.c.execute('''CREATE TABLE IF NOT EXISTS positions
-                     (symbol text, shares real, avgCost real, totalInvestment real, expectedEarnings text)''')
+                     (id INTEGER PRIMARY KEY AUTOINCREMENT, symbol TEXT, shares INTEGER, avgCost REAL, totalInvestment REAL, expectedEarnings TEXT)''')
 
     def add_position(self, position):
         """
@@ -27,16 +27,14 @@ class DBHandler:
         position : Position
             New position being added
         """
-
-        self.c.execute("INSERT INTO positions VALUES (?, ?, ?, ?, ?)", (
-            position.symbol, position.numShares, position.averageCost, position.totalInvestment,
-            position.expectedEarningsDate))
+        print(position)
+        self.c.execute(f"INSERT OR REPLACE INTO positions (symbol, id, shares, avgCost, totalInvestment, expectedEarnings) VALUES (teststss, (SELECT id FROM positions WHERE symbol = {position.symbol}), {position.numShares}, {position.averageCost}, {position.totalInvestment}, {position.expectedEarningsDate})")
         self.conn.commit()
 
     def update_position(self, position):
         """
         Update number of shares for a given symbol
-        
+
         Parameters
         ----------
         position : Position
@@ -56,12 +54,12 @@ class DBHandler:
     def retrieve_position(self, sym):
         """
         Retrieve information on the symbol given
-        
+
         Parameters
         ----------
         sym : str
             Symbol of desired position
-        
+
         Returns
         -------
         Position
@@ -79,7 +77,7 @@ class DBHandler:
     def current_positions(self):
         """
         Finds symbols of all positions currently being held
-        
+
         Returns
         -------
         list
@@ -96,7 +94,7 @@ class DBHandler:
     def db_to_array(self):
         """
         Return all information in database as a list
-        
+
         Returns
         -------
         list
