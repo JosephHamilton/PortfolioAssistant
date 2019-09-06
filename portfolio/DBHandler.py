@@ -2,7 +2,7 @@
 
 import sqlite3
 
-from Positions import Position
+from Position import Position
 
 
 class DBHandler:
