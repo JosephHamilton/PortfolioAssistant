@@ -30,6 +30,23 @@ class Position:
         return f'{self.symbol}(num_shares={self.numShares}, average_cost={self.averageCost}, ' \
                f'expected_earnings={self.expectedEarningsDate})'
 
+    def __add__(self, other):
+        if not isinstance(other, Position):
+            raise TypeError('Other object is not of type Position')
+
+        self.numShares += other.numShares
+        self.averageCost = (self.totalInvestment + float(other.numShares * other.averageCost)) / self.numShares
+        self.totalInvestment = self.averageCost * self.numShares
+        return self
+
+    def __sub__(self, other):
+        if not isinstance(other, Position):
+            raise TypeError('Other object is not of type Position')
+
+        self.numShares -= other.numShares
+        self.totalInvestment = self.averageCost * self.numShares
+        return self
+
     def buy_shares(self, quantity, cost):
         """
         Buy more shares of the stock
