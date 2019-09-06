@@ -4,10 +4,10 @@ from DBHandler import DBHandler
 from Position import Position
 
 
-class RegisterForm(Form):
+class AddPosition(Form):
     symbol = TextField('Stock Symbol', validators=[validators.DataRequired(), validators.Length(max=50)])
     num_shares = IntegerField('Number of Shares', validators=[validators.DataRequired()])
-    avg_cost = DecimalField('Average Cost', places=2, rounding=None, use_locale=False, number_format=None, validators=[validators.DataRequired()])
+    avg_cost = DecimalField('Average Cost', places=2, validators=[validators.DataRequired()])
     submit = SubmitField("Submit")
 
 
@@ -45,7 +45,7 @@ def view_portfolio():
 @app.route("/add_position", methods=["GET", "POST"])
 def add_position():
     try:
-        form = RegisterForm(request.form)
+        form = AddPosition(request.form)
 
         if request.method == "POST" and form.validate():
             symbol = form.symbol.data
@@ -54,8 +54,6 @@ def add_position():
             new_position = Position(symbol, num_shares=num_shares, average_cost=avg_cost)
 
             db.add_position(new_position)
-
-            print(f"Symbol: {symbol}\n Number of shares: {num_shares}\n Average Cost: {avg_cost}")
 
             return redirect(url_for('view_portfolio'))
         elif request.method == "POST" and not form.validate():
