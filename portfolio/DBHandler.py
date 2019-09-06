@@ -2,7 +2,7 @@
 
 import sqlite3
 
-from Position import Position
+from Position  import Position
 
 
 class DBHandler:
@@ -16,7 +16,7 @@ class DBHandler:
         self.c = self.conn.cursor()
 
         self.c.execute('''CREATE TABLE IF NOT EXISTS positions
-                     (id INTEGER PRIMARY KEY AUTOINCREMENT, symbol TEXT, shares INTEGER, avgCost REAL, totalInvestment REAL, expectedEarnings TEXT)''')
+                     (symbol TEXT, shares INTEGER, avgCost REAL, totalInvestment REAL, expectedEarnings TEXT)''')
 
     def add_position(self, position):
         """
@@ -27,14 +27,16 @@ class DBHandler:
         position : Position
             New position being added
         """
-        print(position)
-        self.c.execute(f"INSERT OR REPLACE INTO positions (symbol, id, shares, avgCost, totalInvestment, expectedEarnings) VALUES (teststss, (SELECT id FROM positions WHERE symbol = {position.symbol}), {position.numShares}, {position.averageCost}, {position.totalInvestment}, {position.expectedEarningsDate})")
+
+        self.c.execute("INSERT INTO positions VALUES (?, ?, ?, ?, ?)", (
+            str(position.symbol), int(position.numShares), float(position.averageCost), float(position.totalInvestment),
+            position.expectedEarningsDate))
         self.conn.commit()
 
     def update_position(self, position):
         """
         Update number of shares for a given symbol
-
+        
         Parameters
         ----------
         position : Position
@@ -54,12 +56,12 @@ class DBHandler:
     def retrieve_position(self, sym):
         """
         Retrieve information on the symbol given
-
+        
         Parameters
         ----------
         sym : str
             Symbol of desired position
-
+        
         Returns
         -------
         Position
@@ -77,7 +79,7 @@ class DBHandler:
     def current_positions(self):
         """
         Finds symbols of all positions currently being held
-
+        
         Returns
         -------
         list
@@ -94,7 +96,7 @@ class DBHandler:
     def db_to_array(self):
         """
         Return all information in database as a list
-
+        
         Returns
         -------
         list

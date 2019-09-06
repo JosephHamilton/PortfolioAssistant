@@ -2,13 +2,12 @@ from flask import Flask, request, make_response, render_template, flash, redirec
 from wtforms import Form, SubmitField, TextField, validators, IntegerField, DecimalField
 from DBHandler import DBHandler
 from Position import Position
-import random
 
 
 class RegisterForm(Form):
-    symbol = TextField('Stock Symbol', [validators.DataRequired(), validators.Length(max=50)])
-    num_shares = IntegerField('Number of Shares', [validators.DataRequired()])
-    avg_cost = DecimalField('Average Cost', [validators.DataRequired()])
+    symbol = TextField('Stock Symbol', validators=[validators.DataRequired(), validators.Length(max=50)])
+    num_shares = IntegerField('Number of Shares', validators=[validators.DataRequired()])
+    avg_cost = DecimalField('Average Cost', places=2, rounding=None, use_locale=False, number_format=None, validators=[validators.DataRequired()])
     submit = SubmitField("Submit")
 
 
@@ -33,11 +32,14 @@ def view_portfolio():
 
         total = 0
 
-        return render_template("portfolio.html", items=positions, total=total, cartID=None)
+        for position in positions:
+            total += position.totalInvestment
+
+        return render_template("portfolio.html", items=positions, total=total)
 
     except Exception as e:
         print(e)
-        return str("help")
+        return str("Error Occurred")
 
 
 @app.route("/add_position", methods=["GET", "POST"])

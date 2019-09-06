@@ -23,13 +23,17 @@
         <th>Number of Shares</th>
         <th>Average Cost</th>
         <th>Total Investment</th>
+        <th>Expected Earnings Date</th>
     </tr>
 
-    {% if item != null %}
+    {% if items != null %}
     {% for item in items %}
     <tr>
-        <td>{{item["name"]}}</td>
-        <td>${{ "%.2f" % item["price"] | float}}</td>
+        <td>{{item["symbol"]}}</td>
+        <td>{{item["numShares"] | int}}</td>
+        <td>${{ "%.2f" % item["averageCost"] | float}}</td>
+        <td>${{ "%.2f" % item["totalInvestment"] | float}}</td>
+        <td>{{item["expectedEarningsDate"]}}</td>
     </tr>
     {% endfor %}
     {% endif %}
