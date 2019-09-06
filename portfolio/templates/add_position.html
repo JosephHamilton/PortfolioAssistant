@@ -4,18 +4,21 @@
         	 	<link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="container">
-<h2>Flask Web Form</h2>
+<h2>Add Position</h2>
 <form action="" method="post" role="form">
     {{ form.csrf }}
 <div class="form-group">
-      <label for="name">First Name:</label>
-<input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter your first name">
+      <label for="symbol">Symbol:</label>
+<input type="text" class="form-control" id="symbol" name="symbol" placeholder="AAPL">
 
-<label for="email">Last Name:</label>
-<input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter your last name">
+<label for="num_shares">Number of Shares:</label>
+<input type="number" class="form-control" id="num_shares" name="num_shares" placeholder="50">
+
+<label for="avg_cost">Average Cost:</label>
+<input type="number" class="form-control" id="avg_cost" name="avg_cost" placeholder="50.00">
 
 </div>
-<button type="submit" class="button">Sign Up</button>
+<button type="submit" class="button">Add Position</button>
 </form>
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}

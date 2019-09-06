@@ -1,13 +1,14 @@
 from flask import Flask, request, make_response, render_template, flash, redirect, url_for
 from wtforms import Form, SubmitField, TextField, validators, IntegerField, DecimalField
 from DBHandler import DBHandler
+from Position import Position
 import random
 
 
 class RegisterForm(Form):
     symbol = TextField('Stock Symbol', [validators.DataRequired(), validators.Length(max=50)])
-    num_shares = IntegerField('Number of Shares', [validators.DataRequired(), validators.Length(max=50)])
-    avg_cost = DecimalField('Average Cost', [validators.DataRequired(), validators.Length(max=50)], places=2)
+    num_shares = IntegerField('Number of Shares', [validators.DataRequired()])
+    avg_cost = DecimalField('Average Cost', [validators.DataRequired()])
     submit = SubmitField("Submit")
 
 
@@ -28,9 +29,11 @@ def view_portfolio():
             elif request.form["submit_button"] == "shop":
                 return redirect(url_for('sell_position'))
 
+        positions = db.db_to_array()
+
         total = 0
 
-        return render_template("portfolio.html", items=None, total=total, cartID=None)
+        return render_template("portfolio.html", items=positions, total=total, cartID=None)
 
     except Exception as e:
         print(e)
@@ -43,20 +46,19 @@ def add_position():
         form = RegisterForm(request.form)
 
         if request.method == "POST" and form.validate():
-            first_name = form.first_name.data
-            last_name = form.last_name.data
-            salt = random.randint(1000, 9999)
-            id_num = abs(hash(first_name + last_name + str(salt))) % (10 ** 8)
+            symbol = form.symbol.data
+            num_shares = form.num_shares.data
+            avg_cost = form.avg_cost.data
+            new_position = Position(symbol, num_shares=num_shares, average_cost=avg_cost)
+            db.add_position(new_position)
 
-            db.add_user(id_num, first_name, last_name)
+            print(f"Symbol: {symbol}\n Number of shares: {num_shares}\n Average Cost: {avg_cost}")
 
-            print("First Name:{}\nLast Name:{}\nID Number:{}".format(first_name, last_name, id_num))
-
-            return redirect(url_for('register_rfid', memberID=id_num))
-        elif not form.validate():
+            return redirect(url_for('view_portfolio'))
+        elif request.method == "POST" and not form.validate():
             flash('Error: All the form fields are required. ')
 
-        return render_template("register.html", form=form)
+        return render_template("add_position.html", form=form)
 
     except Exception as e:
         return str(e)
