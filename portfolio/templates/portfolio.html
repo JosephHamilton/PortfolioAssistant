@@ -26,14 +26,14 @@
         <th>Expected Earnings Date</th>
     </tr>
 
-    {% if items != null %}
-    {% for item in items %}
+    {% if positions != null %}
+    {% for position in positions %}
     <tr>
-        <td>{{item["symbol"]}}</td>
-        <td>{{item["numShares"] | int}}</td>
-        <td>${{ "%.2f" % item["averageCost"] | float}}</td>
-        <td>${{ "%.2f" % item["totalInvestment"] | float}}</td>
-        <td>{{item["expectedEarningsDate"]}}</td>
+        <td>{{position["symbol"]}}</td>
+        <td>{{position["numShares"] | int}}</td>
+        <td>${{ "%.2f" % position["averageCost"] | float}}</td>
+        <td>${{ "%.2f" % position["totalInvestment"] | float}}</td>
+        <td>{{position["expectedEarningsDate"]}}</td>
     </tr>
     {% endfor %}
     {% endif %}
