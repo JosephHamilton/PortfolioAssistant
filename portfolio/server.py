@@ -50,6 +50,7 @@ def add_position():
             num_shares = form.num_shares.data
             avg_cost = form.avg_cost.data
             new_position = Position(symbol, num_shares=num_shares, average_cost=avg_cost)
+
             db.add_position(new_position)
 
             print(f"Symbol: {symbol}\n Number of shares: {num_shares}\n Average Cost: {avg_cost}")
