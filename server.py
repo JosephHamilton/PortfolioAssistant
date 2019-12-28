@@ -22,10 +22,7 @@ class SellPosition(Form):
         super(SellPosition, self).__init__(*args, **kwargs)
 
         cur_positions = my_portfolio.current_positions()
-        if cur_positions:
-            self.symbols.choices = [(symbol, symbol) for symbol in cur_positions]
-        else:
-            self.symbols.choices = [(None, "None")]
+        self.symbols.choices = [(symbol, symbol) for symbol in cur_positions]
 
 
 app = Flask(__name__)
