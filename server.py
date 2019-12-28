@@ -23,10 +23,9 @@ class SellPosition(Form):
 
         cur_positions = my_portfolio.current_positions()
         if cur_positions:
-            self.symbols.choices = [symbol for symbol in list(enumerate(cur_positions))]
+            self.symbols.choices = [(symbol, symbol) for symbol in cur_positions]
         else:
-            self.symbols.choices = [("None", "None")]
-
+            self.symbols.choices = [(None, "None")]
 
 
 app = Flask(__name__)
@@ -84,10 +83,15 @@ def add_position():
 @app.route("/sell_position", methods=["GET", "POST"])
 def sell_position():
     try:
+        if not my_portfolio.current_positions():
+            # No positions currently held so redirect to portfolio page
+            # TODO: flash error saying no positions held
+            return redirect(url_for('view_portfolio'))
+
         form = SellPosition(request.form)
 
         if request.method == "POST" and form.validate():
-            symbol = form.symbol.data
+            symbol = form.symbols.data
             num_shares = form.num_shares.data
             avg_cost = form.avg_cost.data
             new_position = Position(symbol, num_shares=num_shares, average_cost=avg_cost)
