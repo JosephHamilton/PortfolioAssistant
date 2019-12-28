@@ -84,16 +84,16 @@ class Position:
         self.totalInvestment = self.averageCost * quantity
 
 
-class DBHandler:
+class Portfolio:
     def __init__(self):
         """
-        Connect to the portfolio database and check if the table exists.  Create
-        the table if it does not exists
+        Connect to the portfolio database
         """
         self.conn = sqlite3.connect('testPortfolio.db', check_same_thread=False)
 
         self.c = self.conn.cursor()
 
+        # Check if the table exists; create the table if it does not exist
         self.c.execute('''CREATE TABLE IF NOT EXISTS positions
                      (symbol TEXT, shares INTEGER, avgCost REAL, totalInvestment REAL, expectedEarnings TEXT)''')
 
@@ -175,7 +175,7 @@ class DBHandler:
 
     def retrieve_position(self, sym):
         """
-        Retrieve information on the symbol given
+        Retrieve information from database on the symbol given
 
         Parameters
         ----------
@@ -198,7 +198,7 @@ class DBHandler:
 
     def current_positions(self):
         """
-        Finds symbols of all positions currently being held
+        Finds symbols of all positions in database currently being held
 
         Returns
         -------
@@ -213,7 +213,7 @@ class DBHandler:
 
         return current_positions
 
-    def db_to_array(self):
+    def db_to_list(self):
         """
         Return all information in database as a list
 
