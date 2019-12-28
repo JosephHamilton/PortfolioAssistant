@@ -1,10 +1,8 @@
 from flask import Flask, request, make_response, render_template, flash, redirect, url_for
 from wtforms import Form, SubmitField, TextField, validators, IntegerField, DecimalField, SelectField
-from DBHandler import DBHandler
-from Position import Position
+from portfolio_assistant.assistant import Portfolio, Position
 
-db = DBHandler()
-
+my_portfolio = Portfolio()
 
 class AddPosition(Form):
     symbol = TextField('Stock Symbol', validators=[validators.DataRequired(), validators.Length(max=50)])
@@ -14,7 +12,7 @@ class AddPosition(Form):
 
 
 class SellPosition(Form):
-    current_positions = db.current_positions()
+    current_positions = my_portfolio.current_positions()
 
     symbol = SelectField('Stock Symbol', choices=[('current_positions', 'wwwa'), ('test', 'nana')])
     num_shares = IntegerField('Number of Shares', validators=[validators.DataRequired()])
@@ -37,7 +35,7 @@ def view_portfolio():
             elif request.form["submit_button"] == "sell_position":
                 return redirect(url_for('sell_position'))
 
-        positions = db.db_to_array()
+        positions = my_portfolio.db_to_list()
 
         total = 0
 
@@ -62,7 +60,7 @@ def add_position():
             avg_cost = form.avg_cost.data
             new_position = Position(symbol, num_shares=num_shares, average_cost=avg_cost)
 
-            db.add_position(new_position)
+            my_portfolio.add_position(new_position)
 
             return redirect(url_for('view_portfolio'))
         elif request.method == "POST" and not form.validate():
@@ -85,7 +83,7 @@ def sell_position():
             avg_cost = form.avg_cost.data
             new_position = Position(symbol, num_shares=num_shares, average_cost=avg_cost)
 
-            db.sell_position(new_position)
+            my_portfolio.sell_position(new_position)
 
             return redirect(url_for('view_portfolio'))
         elif request.method == "POST" and not form.validate():
