@@ -12,12 +12,12 @@ class DataGatherer:
     def get_expected_earnings(self, symbol):
         """
         Search webpage for earnings on given stock symbol
-        
+
         Parameters
         ----------
         symbol : str
             Symbol of stock we need information on
-        
+
         Returns
         -------
         datetime
@@ -45,18 +45,18 @@ class DataGatherer:
     def get_soup(self, url):
         """
         Grabs source html of for the given webpage
-        
+
         Parameters
         ----------
         url : str
             Url of webpage we want html for
-        
+
         Returns
         -------
         soup
             Soup for desired webpage
         """
-        
+
         try:
             page = requests.get(url, timeout=5)
         except RequestException as e:

@@ -25,7 +25,7 @@ class Portfolio:
         """
         Update information of position if I already own shares, otherwise add
         a new position for the stock
-        
+
         Parameters
         ----------
         symbol : str
@@ -35,7 +35,7 @@ class Portfolio:
         cost : float
             Cost per share of stock
         """
-        
+
         current_positions = self.db.current_positions()
 
         if symbol.upper() in current_positions:
@@ -52,7 +52,7 @@ class Portfolio:
     def close_positions(self, symbol):
         """
         Close the position for the sumbol given
-        
+
         Parameters
         ----------
         symbol : str
@@ -68,7 +68,7 @@ class Portfolio:
     def sell_position(self, symbol, shares, price):
         """
         Sell some shares of the position byt don't close completely
-        
+
         Parameters
         ----------
         symbol : str

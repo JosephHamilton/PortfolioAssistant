@@ -2,7 +2,7 @@
 
 import sqlite3
 
-from Position  import Position
+from position import Position
 
 
 class DBHandler:
@@ -21,7 +21,7 @@ class DBHandler:
     def add_position(self, new_position):
         """
         Add new position to the database
-        
+
         Parameters
         ----------
         new_position : Position
@@ -77,7 +77,7 @@ class DBHandler:
     def update_position(self, position):
         """
         Update number of shares for a given symbol
-        
+
         Parameters
         ----------
         position : Position
@@ -97,12 +97,12 @@ class DBHandler:
     def retrieve_position(self, sym):
         """
         Retrieve information on the symbol given
-        
+
         Parameters
         ----------
         sym : str
             Symbol of desired position
-        
+
         Returns
         -------
         Position
@@ -120,7 +120,7 @@ class DBHandler:
     def current_positions(self):
         """
         Finds symbols of all positions currently being held
-        
+
         Returns
         -------
         list
@@ -137,7 +137,7 @@ class DBHandler:
     def db_to_array(self):
         """
         Return all information in database as a list
-        
+
         Returns
         -------
         list
