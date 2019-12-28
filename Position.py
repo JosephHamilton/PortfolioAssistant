@@ -7,7 +7,7 @@ class Position:
     def __init__(self, symbol, num_shares=0, average_cost=0, expected_earnings=None):
         """
         Stores all necessary information for the current stock position
-        
+
         Parameters
         ----------
         symbol : str
@@ -50,7 +50,7 @@ class Position:
     def buy_shares(self, quantity, cost):
         """
         Buy more shares of the stock
-        
+
         Parameters
         ----------
         quantity : int
@@ -66,7 +66,7 @@ class Position:
     def sell_shares(self, quantity, price):
         """
         Sell shares of the position
-        
+
         Parameters
         ----------
         quantity : int
