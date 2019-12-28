@@ -13,12 +13,20 @@ class AddPosition(Form):
 
 
 class SellPosition(Form):
-    current_positions = my_portfolio.current_positions()
-
-    symbol = SelectField('Stock Symbol', choices=[('current_positions', 'wwwa'), ('test', 'nana')])
+    symbols = SelectField('Stock Symbol')
     num_shares = IntegerField('Number of Shares', validators=[validators.DataRequired()])
     avg_cost = DecimalField('Average Cost', places=2, validators=[validators.DataRequired()])
     submit = SubmitField("Submit")
+
+    def __init__(self, *args, **kwargs):
+        super(SellPosition, self).__init__(*args, **kwargs)
+
+        cur_positions = my_portfolio.current_positions()
+        if cur_positions:
+            self.symbols.choices = [symbol for symbol in list(enumerate(cur_positions))]
+        else:
+            self.symbols.choices = [("None", "None")]
+
 
 
 app = Flask(__name__)
