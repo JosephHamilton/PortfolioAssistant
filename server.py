@@ -1,8 +1,9 @@
-from flask import Flask, request, make_response, render_template, flash, redirect, url_for
+from flask import Flask, request, render_template, flash, redirect, url_for
 from wtforms import Form, SubmitField, TextField, validators, IntegerField, DecimalField, SelectField
 from portfolio_assistant.assistant import Portfolio, Position
 
 my_portfolio = Portfolio()
+
 
 class AddPosition(Form):
     symbol = TextField('Stock Symbol', validators=[validators.DataRequired(), validators.Length(max=50)])
