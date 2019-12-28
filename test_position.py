@@ -1,5 +1,5 @@
 import pytest
-from Position import Position
+from portfolio_assistant.position import Position
 
 
 @pytest.mark.parametrize("test_input, expected",
